@@ -4,7 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Reviews struct {
+type Courses struct {
 	gorm.Model
 	CourseTitle   string `gorm:"type:varchar(255);not null;unique"`
 	CourseBenefit string `gorm:"type:text;not null"`
