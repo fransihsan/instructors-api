@@ -1,0 +1,888 @@
+openapi: "3.0.2"
+info:
+  title: Instructor-Courses Web API
+  description: Dokumentasi Technical Test Web API
+  contact:
+    name: Frans Ihsan
+    email: fransihsan8888@gmail.com
+  version: "1.1.0"
+servers:
+  - url: https://fransihsan.cloud.okteto.net
+tags:
+  - name: Auth
+    description: Autorisasi instruktur
+  - name: Instructors
+    description: Operasi tentang instruktur
+  - name: Courses
+    description: Operasi tentang kursus
+paths:
+  /instructors/register:
+    post:
+      summary: Registrasi instruktur
+      tags:
+        - Instructors
+      requestBody:
+        required: true
+        description: Registrasi instruktur baru dengan input yang sesuai
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                  format: password
+                instructor_name:
+                  type: string
+                instructor_profession: 
+                  type: string
+                about_instructor:
+                  type: string
+              example:
+                email: fransihsan@gmail.com
+                password: frans123
+                instructor_name: Frans Ihsan
+                instructor_profession: Backend Developer at PT X
+                about_instructor: Frans Ihsan adalah seorang Backend Developer di PT x
+      responses:
+        201:
+          $ref: '#/components/responses/201CreatedNewInstructors'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/400CreateNewInstructorBindErrorOrEmptyFields'
+                  - $ref: '#/components/schemas/400CreateNewInstructorRequestValidationError2'
+                  - $ref: '#/components/schemas/400CreateNewInstructorRequestValidationError3'
+                  - $ref: '#/components/schemas/400CreateNewInstructorRequestValidationError1'
+        500:
+          $ref: '#/components/responses/500CreateNewInstructorInternalServerError'
+  /login:
+    post:
+      tags:
+        - Auth
+      summary: Login instruktur
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                  format: password
+              example:
+                email: fransihsan@gmail.com
+                password: frans123
+      responses:
+        200:
+          $ref: '#/components/responses/200LoginSuccessful'
+        400:
+          $ref: '#/components/responses/400LoginBadRequest'
+        406:
+          $ref: '#/components/responses/406NotAcceptableGenerateToken'
+        500:
+          $ref: '#/components/responses/500LoginInternalServerError'
+  /instructors/update-profile:
+    put:
+      summary: Memperbarui profile instruktur
+      tags:
+        - Instructors
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                  format: password
+                instructor_name:
+                  type: string
+                instructor_profession: 
+                  type: string
+                about_instructor:
+                  type: string
+              example:
+                email: fransihsan@gmail.com
+                password: fransxyz
+                instructor_name: Frans Ihsan_Updated
+                instructor_profession: Backend Developer at Indonesia
+                about_instructor: Frans Ihsan adalah seorang Backend Developer di Indonesia
+      responses:
+        200:
+          $ref: '#/components/responses/200UpdateInstructorSuccessful'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/400UpdateInstructorBindError'
+                  - $ref: '#/components/schemas/400UpdateInstructorNameValidationError'
+                  - $ref: '#/components/schemas/400UpdateInstructorEmailValidationError'
+                  - $ref: '#/components/schemas/400UpdateInstructorPasswordValidationError'
+        401:
+          description: Access token is missing, invalid or expired
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/401UnauthorizedError'
+                  - $ref: '#/components/schemas/401ExpiredToken'
+        500:
+          $ref: '#/components/responses/500UpdateInstructorInternalServerError'
+  /courses:
+    post:
+      summary: Tambahkan kursus baru
+      tags:
+        - Courses
+      requestBody:
+        required: true
+        description: Menambah kursus dengan input yang sesuai
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                course_title:
+                  type: string
+                course_benefit:
+                  type: string
+                course_price:
+                  type: integer
+                course_desc:
+                  type: string
+            example:
+                course_title: Membangun Web API sederhana
+                course_benefit: Video Pembelajaran, Sertifikat
+                course_price: 100000
+                course_desc: Mempelajari bagaimana membangun sebuah Web API
+      security:
+      - bearerAuth: []
+      responses:
+        201:
+          $ref: '#/components/responses/201CreateNewCourseSuccessful'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400CreateNewCourseBindErrorOrEmptyFields'
+        401:
+          description: Access token is missing, invalid or expired
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/401UnauthorizedError'
+                  - $ref: '#/components/schemas/401ExpiredToken'
+        500:
+          $ref: '#/components/responses/500CreateNewCourseInternalServerError'
+    get:
+      summary: Dapatkan semua kursus
+      tags:
+        - Courses
+      responses:
+        200:
+          $ref: '#/components/responses/200GetAllCoursesSuccessful'
+        500:
+          $ref: '#/components/responses/500GetAllCoursesInternalServerError'
+  /courses/{id}:
+    get:
+      summary: Dapatkan detail kursus
+      tags:
+        - Courses
+      parameters:
+        - name: id
+          in: path
+          description: id kursus hasil dari path param
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          $ref: '#/components/responses/200GetCourseDetailsSuccessful'
+        500:
+          $ref: '#/components/responses/500GetCourseDetailsInternalServerError'
+    put:
+      summary: Memperbarui data kursus berdasarkan id
+      tags:
+        - Courses
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: id kursus hasil dari path param
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        description: Memperbarui kursus dengan input yang sesuai
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                course_title:
+                  type: string
+                course_benefit:
+                  type: string
+                course_price:
+                  type: integer
+                course_desc:
+                  type: string
+            example:
+                course_title: Membangun Web API Pemula
+                course_benefit: Video Pembelajaran, Sertifikat
+                course_price: 150000
+                course_desc: Mempelajari bagaimana membangun sebuah Web API bagi pemula
+      responses:
+        200:
+          $ref: '#/components/responses/200UpdateCourseSuccessful'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400UpdateCourseBindError'
+        401:
+          description: Access token is missing, invalid or expired
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/401UnauthorizedError'
+                  - $ref: '#/components/schemas/401ExpiredToken'
+        500:
+          $ref: '#/components/responses/500UpdateCourseInternalServerError'
+    delete:
+      summary: Menghapus kursus berdasarkan id
+      tags:
+        - Courses
+      parameters:
+        - name: id
+          in: path
+          description: id kursus hasil dari path param
+          required: true
+          schema:
+            type: integer
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          $ref: '#/components/responses/200DeleteCourseSuccessful'
+        401:
+          description: Access token is missing, invalid or expired
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/401UnauthorizedError'
+                  - $ref: '#/components/schemas/401ExpiredToken'
+        500:
+          $ref: '#/components/responses/500DeleteCourseInternalServerError'
+components:
+  responses:
+    200LoginSuccessful:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  instructor_name:
+                    type: string
+                  token:
+                    type: string
+          example:
+            code: 200
+            message: berhasil masuk, mendapatkan token baru
+            data:
+              id: 1
+              instructor_name: Frans Ihsan
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    400LoginBadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+          example:
+            code: 400
+            message: input tidak sesuai, email atau password tidak boleh kosong
+            data: null
+    500LoginInternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+          example:
+            code: 500
+            message: email dan password belum terdaftar
+            data: null
+    406NotAcceptableGenerateToken:
+      description: Not Acceptable
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+          example:
+            code: 406
+            message: id tidak valid
+            data: null
+    201CreatedNewInstructors:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  email:
+                    type: string
+                  instructor_name:
+                    type: string
+                  instructor_profession: 
+                    type: string
+                  about_instructor:
+                    type: string
+            example:
+              code: 201
+              message: sukses menambahkan instruktur baru
+              data:
+                id: 1
+                email: fransihsan@gmail.com
+                instructor_name: Frans Ihsan
+                instructor_profession: Backend Developer at PT X
+                about_instructor: Frans Ihsan adalah seorang Backend Developer di PT x
+    500CreateNewInstructorInternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+          example:
+            code: 500
+            message: gagal membuat instruktur baru
+            data: null
+    200UpdateInstructorSuccessful:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  email:
+                    type: string
+                  instructor_name:
+                    type: string
+                  instructor_profession: 
+                    type: string
+                  about_instructor:
+                    type: string
+            example:
+              code: 200
+              message: sukses memperbarui data user
+              data:
+                id: 1
+                email: fransihsan@gmail.com
+                instructor_name: Frans Ihsan_Updated
+                instructor_profession: Backend Developer at Indonesia
+                about_instructor: Frans Ihsan adalah seorang Backend Developer di Indonesia
+    500UpdateInstructorInternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+          example:
+            code: 500
+            message: tidak ada perubahan pada data instructor
+            data: null
+    200GetAllCoursesSuccessful:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    course_title:
+                      type: integer
+                    course_benefit:
+                      type: string
+                    instructor_name:
+                      type: string
+                    instructor_profession:
+                      type: string
+                    course_price:
+                      type: integer
+            example:
+              code: 200
+              message: sukses mendapatkan semua kursus
+              data:
+                - id: 2
+                  course_title: Tutorial Wodpress Pemula
+                  instructor_name: Andika
+                  course_price: 50000
+                - id: 1
+                  course_title: Membangun Web API sederhana
+                  instructor_name: Frans Ihsan
+                  course_price: 100000
+    500GetAllCoursesInternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+          example:
+            code: 500
+            message: tidak terdapat kursus sama sekali
+            data: null
+    200GetCourseDetailsSuccessful:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  instructor_id:
+                    type: integer
+                  course_title:
+                    type: string
+                  course_benefit:
+                    type: string
+                  course_price:
+                    type: integer
+                  course_desc:
+                    type: string
+            example:
+              code: 200
+              message: sukses mendapatkan detail service
+              data:
+                id: 1
+                instructor_id: 1
+                course_title: Membangun Web API sederhana
+                course_benefit: Video Pembelajaran, Sertifikat
+                course_price: 100000
+                course_desc: Mempelajari bagaimana membangun sebuah Web API
+    500GetCourseDetailsInternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+          example:
+            code: 500
+            message: gagal mendapatkan detail kursus
+            data: null
+    201CreateNewCourseSuccessful:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  instructor_id:
+                    type: integer
+                  course_title:
+                    type: string
+                  course_benefit:
+                    type: string
+                  course_price:
+                    type: integer
+                  course_desc:
+                    type: string
+            example:
+              code: 201
+              message: sukses menambahkan kursus baru
+              data:
+                instructor_id: 1
+                course_title: Membangun Web API sederhana
+                course_benefit: Video Pembelajaran, Sertifikat
+                course_price: 100000
+                course_desc: Mempelajari bagaimana membangun sebuah Web API
+    500CreateNewCourseInternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+          example:
+            code: 500
+            message: gagal membuat kursus baru
+            data: null
+    200UpdateCourseSuccessful:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  instructor_id:
+                    type: integer
+                  course_title:
+                    type: string
+                  course_benefit:
+                    type: string
+                  course_price:
+                    type: integer
+                  course_desc:
+                    type: string
+            example:
+              code: 200
+              message: sukses memperbarui data kursus
+              data:
+                id: 1
+                instructor_id: 1
+                course_title: Membangun Web API Pemula
+                course_benefit: Video Pembelajaran, Sertifikat
+                course_price: 150000
+                course_desc: Mempelajari bagaimana membangun sebuah Web API bagi pemula
+    500UpdateCourseInternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+          example:
+            code: 500
+            message: tidak ada data kursus yang diperbarui
+            data: null
+    200DeleteCourseSuccessful:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+            example:
+              code: 200
+              message: sukses menghapus kursus
+              data: null
+    500DeleteCourseInternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+              message:
+                type: string
+              data:
+                type: object
+          example:
+            code: 500
+            message: tidak ada kursus yang dihapus
+            data: null
+  schemas:
+    401UnauthorizedError:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        missing or malformed jwt
+    401ExpiredToken:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        invalid or expired jwt
+    400CreateNewInstructorBindErrorOrEmptyFields:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+      example:
+        code: 400
+        message: input tidak sesuai, instructor_name, instructor_profession, email atau password tidak boleh kosong
+        data: null
+    400CreateNewInstructorRequestValidationError1:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+      example:
+        code: 400
+        message: 'input instructor_nama tidak sesuai (alfabet; tanpa simbol; boleh ada spasi di antara kata; total karakter: minimal 4, maksimal 30;)\ncontoh: \"Frans Ihsan\"'
+        data: null
+    400CreateNewInstructorRequestValidationError2:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+      example:
+        code: 400
+        message: 'input email tidak sesuai (username: lowercase alfanumerik, simbol yang diperbolehkan hanya ''_'' dan ''-''; pemisah: simbol ''@''; domain name: lowercase alfanumerik, simbol yang diperbolehkan hanya ''-''; pemisah: simbol ''.''; domain: lowercase alfabet, minimal 2 karakter, maksimal 4 karakter;)\ncontoh: \"fransihsan@gmail.com\"'
+        data: null
+    400CreateNewInstructorRequestValidationError3:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+      example:
+        code: 400
+        message: 'input password tidak sesuai (alfanumerik; boleh menggunakan simbol; total karakter: minimal 5, maksimal 8;)'
+        data: null  
+    400UpdateInstructorBindError:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+      example:
+        code: 400
+        message: terdapat kesalahan input dari client
+        data: null
+    400UpdateInstructorNameValidationError:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+      example:
+        code: 400
+        message: 'input nama tidak sesuai (alfabet; tanpa simbol; boleh ada spasi di antara kata; total karakter: minimal 4, maksimal 30;)\ncontoh: \"Yusuf Nur Wahid\"'
+        data: null
+    400UpdateInstructorEmailValidationError:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+      example:
+        code: 400
+        message: 'input email tidak sesuai (username: lowercase alfanumerik, simbol yang diperbolehkan hanya ''_'' dan ''-''; pemisah: simbol ''@''; domain name: lowercase alfanumerik, simbol yang diperbolehkan hanya ''-''; pemisah: simbol ''.''; domain: lowercase alfabet, minimal 2 karakter, maksimal 4 karakter;)\ncontoh: \"yusuf@mail.com\"'
+        data: null
+    400UpdateInstructorPasswordValidationError:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+      example:
+        code: 400
+        message: 'input password tidak sesuai (alfanumerik; boleh menggunakan simbol; total karakter: minimal 5, maksimal 8;)'
+        data: null
+    400CreateNewServiceBindError:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+      example:
+        code: 400
+        message: input dari user tidak sesuai, title, description, atau price tidak boleh kosong
+        data: null
+    400UpdateCourseBindError:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+      example:
+        code: 400
+        message: input dari user tidak sesuai
+        data: null
+    400CreateNewCourseBindErrorOrEmptyFields:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+      example:
+        code: 400
+        message: input tidak sesuai, course_title, course_benefit, course_price atau course_desc tidak boleh kosong
+        data: null
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
