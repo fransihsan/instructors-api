@@ -2,6 +2,7 @@ package instructor
 
 import (
 	"gorm.io/gorm"
+	"instructors-api/entities/course"
 )
 
 type Instructors struct {
@@ -11,4 +12,5 @@ type Instructors struct {
 	InstructorName       string `gorm:"type:varchar(255);not null"`
 	InstructorProfession string `gorm:"type:varchar(255);not null"`
 	AboutInstructor      string `gorm:"type:varchar(255)"`
+	Courses  []course.Courses   `gorm:"foreignKey:IstructorID"`
 }
