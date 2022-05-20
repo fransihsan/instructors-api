@@ -2,6 +2,7 @@ package instructor
 
 import (
 	"gorm.io/gorm"
+	"instructors-api/entities/course"
 )
 
 type Instructors struct {
