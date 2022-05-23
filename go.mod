@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/joho/godotenv v1.4.0
 	github.com/labstack/gommon v0.3.1
+	golang.org/x/crypto v0.0.0-20220518034528-6f7dac969898
 	gorm.io/driver/mysql v1.3.3
 	gorm.io/gorm v1.23.5
 )
