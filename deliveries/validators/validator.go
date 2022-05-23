@@ -40,3 +40,29 @@ func ValidateUpdateInstructor(name, email, password string) error {
 	}
 	return nil
 }
+
+func ValidateCreateCourse(title, description string) error {
+	titlePattern, _ := regexp.Compile(`^[a-zA-Z0-9 ]*$`)
+	descPattern, _ := regexp.Compile(`^[a-zA-Z0-9\W ]*$`)
+	if len(title) > 30 || !titlePattern.MatchString(title) {
+		return errors.New("input title tidak sesuai (alfanumerik; tanpa simbol; boleh ada spasi di antara kata; total karakter: maksimal 30;)\ncontoh: \"Service 1\"")
+	}
+
+	if len(description) > 320 || !descPattern.MatchString(description) {
+		return errors.New("input description tidak sesuai (alfanumerik; boleh simbol; boleh ada spasi di antara kata; total karakter: maksimal 320;)\ncontoh: \"Layanan regular yang disukai orang.\"")
+	}
+	return nil
+}
+
+func ValidateUpdateCourse(title, description string) error {
+	titlePattern, _ := regexp.Compile(`^[a-zA-Z0-9 ]*$`)
+	descPattern, _ := regexp.Compile(`^[a-zA-Z0-9\W ]*$`)
+	if len(title) > 30 || !titlePattern.MatchString(title) {
+		return errors.New("input title tidak sesuai (alfanumerik; tanpa simbol; boleh ada spasi di antara kata; total karakter: maksimal 30;)\ncontoh: \"Service 1\"")
+	}
+
+	if len(description) > 320 || !descPattern.MatchString(description) {
+		return errors.New("input description tidak sesuai (alfanumerik; boleh simbol; boleh ada spasi di antara kata; total karakter: maksimal 320;)\ncontoh: \"Layanan regular yang disukai orang.\"")
+	}
+	return nil
+}
