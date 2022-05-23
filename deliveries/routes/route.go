@@ -28,10 +28,9 @@ func RegisterPaths(e *echo.Echo, ac *auth.AuthController, ic *instructor.Instruc
 
 	// Course Route
 	c := e.Group("/courses")
-	c.Use(middlewares.JWTMiddleware())
-	c.POST("", cc.Create())
+	c.POST("", cc.Create(), middlewares.JWTMiddleware())
 	c.GET("", cc.Get())
-	c.GET("", cc.GetDetail())
-	c.GET("/:id", cc.Update())
-	c.DELETE("/:id", cc.Delete())
+	c.GET("/:id", cc.GetDetail())
+	c.PUT("/:id", cc.Update(), middlewares.JWTMiddleware())
+	c.DELETE("/:id", cc.Delete(), middlewares.JWTMiddleware())
 }
