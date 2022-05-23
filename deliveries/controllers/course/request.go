@@ -30,12 +30,13 @@ type RequestUpdate struct {
 	CourseDesc    string `json:"course_desc" form:"course_desc"`
 }
 
-func (Req RequestUpdate) ToEntityService(ID uint) C.Courses {
+func (Req RequestUpdate) ToEntityService(InstructorID, ID uint) C.Courses {
 	return C.Courses{
 		Model:         gorm.Model{ID: ID},
 		CourseTitle:   Req.CourseTitle,
 		CourseBenefit: Req.CourseBenefit,
 		CoursePrice:   Req.CoursePrice,
 		CourseDesc:    Req.CourseDesc,
+		IstructorID: InstructorID,
 	}
 }

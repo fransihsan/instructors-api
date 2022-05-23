@@ -43,7 +43,7 @@ func (repo *CourseRepository) GetDetail(ID uint) (FormatGetDetailCourse, error) 
 }
 
 func (repo *CourseRepository) Update(courseUpdate C.Courses) (C.Courses, error) {
-	if rowsAffected := repo.db.Model(&courseUpdate).Updates(courseUpdate).RowsAffected; rowsAffected == 0 {
+	if rowsAffected := repo.db.Model(&courseUpdate).Where("id = ? && istructor_id = ?", courseUpdate.ID, courseUpdate.IstructorID).Updates(courseUpdate).RowsAffected; rowsAffected == 0 {
 		return C.Courses{}, errors.New("tidak ada data kursus yang diperbarui")
 	}
 	repo.db.First(&courseUpdate)
@@ -51,7 +51,7 @@ func (repo *CourseRepository) Update(courseUpdate C.Courses) (C.Courses, error) 
 }
 
 func (repo *CourseRepository) Delete(InstructorID, ID uint) error {
-	if rowsAffected := repo.db.Delete(&C.Courses{}, ID, InstructorID).RowsAffected; rowsAffected == 0 {
+	if rowsAffected := repo.db.Delete(&C.Courses{}, "id = ? && istructor_id = ?", ID, InstructorID).RowsAffected; rowsAffected == 0 {
 		return errors.New("tidak ada kursus yang dihapus")
 	}
 	return nil
