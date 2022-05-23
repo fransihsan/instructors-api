@@ -38,7 +38,7 @@ func (ctl *CourseController) Create() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(err.Error()))
 		}
-		return c.JSON(http.StatusCreated, common.Success(http.StatusCreated, "sukses menambahkan Service baru", ToResponseCreate(res)))
+		return c.JSON(http.StatusCreated, common.Success(http.StatusCreated, "sukses menambahkan kursus baru", ToResponseCreate(res)))
 	}
 }
 
@@ -48,7 +48,7 @@ func (ctl *CourseController) Get() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(err.Error()))
 		}
-		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "sukses mendapatkan semua service", res))
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "sukses mendapatkan semua kursus", res))
 	}
 }
 
@@ -60,7 +60,7 @@ func (ctl *CourseController) GetDetail() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(err.Error()))
 		}
-		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "sukses mendapatkan detail service", res))
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "sukses mendapatkan detail kursus", res))
 	}
 }
 
@@ -80,7 +80,7 @@ func (ctl *CourseController) Update() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(err.Error()))
 		}
-		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "sukses memperbarui data service", ToResponseUpdate(res)))
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "sukses memperbarui data kursus", ToResponseUpdate(res)))
 	}
 }
 
@@ -93,6 +93,6 @@ func (ctl *CourseController) Delete() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(err.Error()))
 		}
-		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "sukses menghapus service", err))
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "sukses menghapus kursus", err))
 	}
 }
