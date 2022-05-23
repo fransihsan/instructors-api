@@ -32,28 +32,3 @@ func ExtractTokenUserID(e echo.Context) uint {
 	}
 	return 0
 }
-
-// Check if user is admin or not
-func ExtractTokenIsAdmin(e echo.Context) bool {
-	user := e.Get("user").(*jwt.Token)
-	if user.Valid {
-		data := user.Claims.(jwt.MapClaims)
-		isAdmin := data["isAdmin"].(bool)
-		return isAdmin
-	}
-	return false
-}
-
-// Check if token is alive or not
-// func ExtractTokenIsAlive(e echo.Context) bool {
-// 	user := e.Get("user").(*jwt.Token)
-// 	if user.Valid {
-// 		data := user.Claims.(jwt.MapClaims)
-// 		expiredTime := time.Unix(int64(data["exp"].(float64)), 0)
-
-// 		if remainder := time.Until(expiredTime); remainder > 0 {
-// 			return true
-// 		}
-// 	}
-// 	return false
-// }
