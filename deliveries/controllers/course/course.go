@@ -68,6 +68,7 @@ func (ctl *CourseController) Update() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var updateService RequestUpdate
 		ID, _ := strconv.Atoi(c.Param("id"))
+		InstructorID := middlewares.ExtractTokenUserID(c)
 		if err := c.Bind(&updateService); err != nil {
 			return c.JSON(http.StatusBadRequest, common.BadRequest("input dari user tidak sesuai"))
 		}
@@ -76,7 +77,7 @@ func (ctl *CourseController) Update() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, common.BadRequest(err.Error()))
 		}
 
-		res, err := ctl.repo.Update(updateService.ToEntityService(uint(ID)))
+		res, err := ctl.repo.Update(updateService.ToEntityService(InstructorID, uint(ID)))
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(err.Error()))
 		}
