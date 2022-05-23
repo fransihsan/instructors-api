@@ -452,7 +452,7 @@ components:
                     type: string
             example:
               code: 200
-              message: sukses memperbarui data user
+              message: sukses memperbarui data instruktur
               data:
                 id: 1
                 email: fransihsan@gmail.com
@@ -508,14 +508,14 @@ components:
               code: 200
               message: sukses mendapatkan semua kursus
               data:
-                - id: 2
-                  course_title: Tutorial Wodpress Pemula
-                  instructor_name: Andika
-                  course_price: 50000
                 - id: 1
                   course_title: Membangun Web API sederhana
                   instructor_name: Frans Ihsan
                   course_price: 100000
+                - id: 2
+                  course_title: Tutorial Wodpress Pemula
+                  instructor_name: Andika
+                  course_price: 50000
     500GetAllCoursesInternalServerError:
       description: Internal Server Error
       content:
@@ -549,8 +549,6 @@ components:
                 properties:
                   id:
                     type: integer
-                  instructor_id:
-                    type: integer
                   course_title:
                     type: string
                   course_benefit:
@@ -559,16 +557,18 @@ components:
                     type: integer
                   course_desc:
                     type: string
+                  instructor_name:
+                    type: string
             example:
               code: 200
-              message: sukses mendapatkan detail service
+              message: sukses mendapatkan detail kursus
               data:
                 id: 1
-                instructor_id: 1
                 course_title: Membangun Web API sederhana
                 course_benefit: Video Pembelajaran, Sertifikat
                 course_price: 100000
                 course_desc: Mempelajari bagaimana membangun sebuah Web API
+                instructor_name: Frans Ihsan
     500GetCourseDetailsInternalServerError:
       description: Internal Server Error
       content:
@@ -841,19 +841,6 @@ components:
       example:
         code: 400
         message: 'input password tidak sesuai (alfanumerik; boleh menggunakan simbol; total karakter: minimal 5, maksimal 8;)'
-        data: null
-    400CreateNewServiceBindError:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        data:
-          type: object
-      example:
-        code: 400
-        message: input dari user tidak sesuai, title, description, atau price tidak boleh kosong
         data: null
     400UpdateCourseBindError:
       type: object
