@@ -1,0 +1,243 @@
+{
+	"info": {
+		"_postman_id": "9d8e5ce7-095f-4937-99f3-41982255de61",
+		"name": "Course",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Instructor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"fransihsan3@gmail.com\",\r\n  \"password\": \"frans123\",\r\n  \"instructor_name\": \"Frans Ihsan\",\r\n  \"instructor_profession\": \"Backend Developer at PT X\",\r\n  \"about_instructor\": \"Frans Ihsan adalah seorang Backend Developer di PT x\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/instructors/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"instructors",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Instructor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"fransihsan@gmail.com\",\r\n  \"password\": \"fransxyz\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Profile Instructor",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2NTMzMjAwNzcsImlkIjoxfQ.pcp784WgTBvpcT_Egb61fIyWD41j9Lw9zt-2LhmO8Kc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"fransihsan@gmail.com\",\r\n  \"password\": \"fransxyz\",\r\n  \"instructor_name\": \"Frans Ihsan Updated\",\r\n  \"instructor_profession\": \"Backend Developer at Indonesia\",\r\n  \"about_instructor\": \"Frans Ihsan adalah seorang Backend Developer di Indonesia\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/instructors/update-profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"instructors",
+						"update-profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Course",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2NTMzMzM2NTgsImlkIjoxfQ.MDaT3_jqhKYkN7yVXRonq2ExJ6E1ztOZmV9F48JdvXY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"course_title\": \"Membangun Web kub\",\r\n  \"course_benefit\": \"Video Pembelajaran, Sertifikat\",\r\n  \"course_price\": 100000,\r\n  \"course_desc\": \"Mempelajari bagaimana membangun sebuah Web API\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/courses",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Courses",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/courses",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Detail Course",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/courses/7",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"courses",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Course",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2NTMzMzM3NDksImlkIjo0fQ.w7TIKI6ssmfF_qgqF3soVjbfCEidPslG0c0xnYyo-XA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"course_title\": \"Membangun Web API dana\",\r\n  \"course_benefit\": \"Video Pembelajaran, Sertifikat\",\r\n  \"course_price\": 100000,\r\n  \"course_desc\": \"Mempelajari bagaimana membangun sebuah Web API\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/courses/7",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"courses",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Course",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2NTMzMzM4MDgsImlkIjoxfQ.Lygoe7CLCAUbd8UV1aeZT4n092PzxBO3UL8nhvw3K_c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/courses/7",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"courses",
+						"7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
