@@ -4,7 +4,6 @@ import I "instructors-api/entities/instructor"
 
 type ResponseCreateInstructor struct {
 	ID                   uint   `json:"id"`
-	Name                 string `json:"name"`
 	Email                string `json:"email"`
 	InstructorName       string `json:"instructor_name"`
 	InstructorProfession string `json:"instructor_profession"`
