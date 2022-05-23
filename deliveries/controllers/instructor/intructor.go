@@ -37,7 +37,7 @@ func (ctl *InstructorController) Create() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(err.Error()))
 		}
-		return c.JSON(http.StatusCreated, common.Success(http.StatusCreated, "sukses menambahkan user baru", ToResponseCreateInstructor(res)))
+		return c.JSON(http.StatusCreated, common.Success(http.StatusCreated, "sukses menambahkan instruktur baru", ToResponseCreateInstructor(res)))
 	}
 }
 
@@ -58,6 +58,6 @@ func (ctl *InstructorController) Update() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(err.Error()))
 		}
-		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "sukses memperbarui data user", ToResponseUpdateInstructor(res)))
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "sukses memperbarui data instructor", ToResponseUpdateInstructor(res)))
 	}
 }
