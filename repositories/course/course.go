@@ -28,7 +28,7 @@ func (repo *CourseRepository) Create(newCourse C.Courses) (C.Courses, error) {
 
 func (repo *CourseRepository) Get() ([]FormatGetCourse, error) {
 	var courses []FormatGetCourse
-	if rowsAffected := repo.db.Model(&C.Courses{}).Select("courses.id, courses.course_title, instructors.instructor_name, courses.course_price").Joins("inner join instructors on instructors.id = courses.instructor_id").Scan(&courses).RowsAffected; rowsAffected == 0 {
+	if rowsAffected := repo.db.Model(&C.Courses{}).Select("courses.id, courses.course_title, instructors.instructor_name, courses.course_price").Joins("inner join instructors on instructors.id = courses.istructor_id").Scan(&courses).RowsAffected; rowsAffected == 0 {
 		return nil, errors.New("tidak terdapat kursus sama sekali")
 	}
 	return courses, nil
@@ -36,7 +36,7 @@ func (repo *CourseRepository) Get() ([]FormatGetCourse, error) {
 
 func (repo *CourseRepository) GetDetail(ID uint) (FormatGetDetailCourse, error) {
 	var course FormatGetDetailCourse
-	if rowsAffected := repo.db.Model(&C.Courses{}).Select("courses.id, courses.course_title, courses.course_benefit, courses.course_price, courses.course_desc, instructors.instructor_name").Joins("inner join instructors on instructors.id = courses.instructor_id").Where("courses.id = ?", ID).Scan(&course).RowsAffected; rowsAffected == 0 {
+	if rowsAffected := repo.db.Model(&C.Courses{}).Select("courses.id, courses.course_title, courses.course_benefit, courses.course_price, courses.course_desc, instructors.instructor_name").Joins("inner join instructors on instructors.id = courses.istructor_id").Where("courses.id = ?", ID).Scan(&course).RowsAffected; rowsAffected == 0 {
 		return FormatGetDetailCourse{}, errors.New("tidak terdapat kursus sama sekali")
 	}
 	return course, nil
